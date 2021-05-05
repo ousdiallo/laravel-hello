@@ -20,6 +20,8 @@ use Illuminate\Support\Str;
 $factory->define(Todo::class, function (Faker $faker) {
     return [
         'name' => $faker->sentence(3),
+        'creator_id' => $faker->numberBetween(1, 2),
+        'affectedTo_id' => $faker->numberBetween(1, 2),
         'description' => $faker->sentence(10),
         'done' => $faker->numberBetween(0, 1)
     ];
