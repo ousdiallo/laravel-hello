@@ -78,34 +78,63 @@ class TodoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param Todo $todo
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Todo $todo)
     {
-        //
+        return view('todos.edit', compact('todo'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Todo  $todo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Todo $todo)
     {
-        //
+        if(!isset($request->done)){
+            $request['done'] = 0;
+        }
+        $todo->update($request->all());
+        return redirect()->route('todos.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Todo  $todo
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Todo $todo)
     {
-        //
+        $todo->delete();
+        return back();
+    }
+
+    /** 
+     * Make a todo done
+     * @param Todo $todo
+     * @return void
+    */
+    public function makedone(Todo $todo)
+    {
+        $todo->done = 1;
+        $todo->update();
+        return back();
+    }
+
+    /** 
+     * Make a todo done
+     * @param Todo $todo
+     * @return void
+    */
+    public function makeundone(Todo $todo)
+    {
+        $todo->done = 0;
+        $todo->update();
+        return back();
     }
 }
