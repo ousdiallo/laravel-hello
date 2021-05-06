@@ -31,7 +31,7 @@ class TodoAffected extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -43,9 +43,11 @@ class TodoAffected extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->from('info.ouzdiallo@gmail.com', 'Ousmane de ASC Medine')
+            ->subject('Tu as un todo à finir')
+            ->line("Le todo (#" . $this->todo->id . ") '" . $this->todo->name . " ' vient d'être affecté par " . $this->todo->todoAffectedBy->name . ".")
+            ->action('Voir tous mes todos ', url('/todos'))
+            ->line('Merci de les finir dans les brefs délais !');
     }
 
     /**
